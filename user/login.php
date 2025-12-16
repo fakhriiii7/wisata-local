@@ -48,11 +48,27 @@ if ($_POST) {
 <head>
     <meta charset="UTF-8">
     <title>Login User</title>
+    <link rel="icon" type="image/png" href="../assets/img/logo1.png">
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body { background: linear-gradient(180deg,#f4f8ff 0%, #ffffff 100%); }
+        .auth-wrap { min-height:80vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
+        .auth-form { background:#fff; padding:2rem; border-radius:12px; box-shadow:0 12px 30px rgba(25,118,210,0.08); max-width:420px; width:100%; }
+        .auth-form h2 { margin-top:0.75rem; color:#0b3560; font-size:1.25rem; }
+        .auth-logo { display:block; margin:0 auto; max-width:140px; }
+        .auth-form input { width:100%; padding:0.75rem 0.9rem; margin:0.6rem 0; border-radius:8px; border:1px solid #e6eefb; }
+        .auth-form .btn { background:#1976d2; color:#fff; border:none; padding:0.75rem; border-radius:8px; width:100%; cursor:pointer; box-shadow:0 8px 20px rgba(25,118,210,0.12); }
+        .auth-form .btn:hover { transform:translateY(-3px); }
+        .auth-form .error { background:#fff1f0; color:#b00020; padding:0.6rem; border-radius:6px; }
+        .auth-links { margin-top:0.8rem; text-align:center; }
+        .auth-links a { color:#1976d2; text-decoration:none; }
+    </style>
 </head>
 
 <body>
+    <div class="auth-wrap">
     <div class="auth-form">
+        <img src="../assets/img/logo1.png" alt="Logo" class="auth-logo">
         <h2>Login User</h2>
 
         <?php if ($error): ?>
@@ -65,8 +81,11 @@ if ($_POST) {
             <button type="submit" class="btn">Login</button>
         </form>
 
-        <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
-        <p><a href="../index.php">← Kembali ke Beranda</a></p>
+        <div class="auth-links">
+            <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+            <p><a href="../index.php">← Kembali ke Beranda</a></p>
+        </div>
+    </div>
     </div>
 </body>
 

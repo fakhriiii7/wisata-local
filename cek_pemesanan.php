@@ -22,6 +22,7 @@ if($_POST && isset($_POST['kode_booking'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Pemesanan - WisataLocal</title>
+    <link rel="icon" type="image/png" href="assets/img/logo1-1.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@ if($_POST && isset($_POST['kode_booking'])) {
         <div class="container">
             <div class="nav">
                 <div class="logo">
-                    <h2>WisataLocal</h2>
+                    <a href="index.php"><img src="assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
                 </div>
                 <nav class="nav-links">
                     <a href="index.php">Beranda</a>
@@ -53,12 +54,12 @@ if($_POST && isset($_POST['kode_booking'])) {
     </header>
 
     <main class="container">
-        <h1>Cek Status Pemesanan</h1>
-        
+        <h1 class="text-center mt-3 mb-2">Cek Status Pemesanan</h1>
+
         <div class="check-booking">
             <form method="POST">
                 <input type="text" name="kode_booking" placeholder="Masukkan kode booking (contoh: WB20231201ABC123)" required>
-                <button type="submit" class="btn">Cek Status</button>
+                <button type="submit" class="btn-primary">Cek Status</button>
             </form>
             
             <?php if($error): ?>
@@ -78,8 +79,8 @@ if($_POST && isset($_POST['kode_booking'])) {
                         <div><strong>Total Pembayaran:</strong> <?php echo formatRupiah($pemesanan['total_harga']); ?></div>
                         <div><strong>Status:</strong> <span class="status <?php echo $pemesanan['status']; ?>"><?php echo $pemesanan['status']; ?></span></div>
                     </div>
-                    <div class="actions" style="margin-top: 1.5rem; text-align: center;">
-                        <a href="cetak_tiket.php?kode=<?php echo $pemesanan['kode_booking']; ?>" class="btn" target="_blank">Cetak Tiket</a>
+                    <div class="actions mt-3 text-center">
+                        <a href="cetak_tiket.php?kode=<?php echo $pemesanan['kode_booking']; ?>" class="btn-primary" target="_blank">Cetak Tiket</a>
                     </div>
                 </div>
             </div>

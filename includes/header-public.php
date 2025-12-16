@@ -14,6 +14,7 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wisata Lokal</title>
+    <link rel="icon" type="image/png" href="assets/img/logo1-1.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -22,7 +23,7 @@ if (isset($_GET['logout'])) {
         <div class="container">
             <div class="nav">
                 <div class="logo">
-                    <h2>WisataLocal</h2>
+                    <a href="index.php"><img src="assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
                 </div>
                 <nav class="nav-links">
                     <a href="index.php">Beranda</a>

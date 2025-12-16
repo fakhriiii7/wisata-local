@@ -22,15 +22,49 @@ if($_POST) {
     $harga_dewasa = floatval($_POST['harga_dewasa']);
     $harga_anak = floatval($_POST['harga_anak']);
     $kuota = intval($_POST['kuota_harian']);
+    $uploadedFilename = null;
+
+    // Handle file upload if provided
+    if(isset($_FILES['foto']) && $_FILES['foto']['error'] !== UPLOAD_ERR_NO_FILE) {
+        if($_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+            $allowed = ['image/jpeg','image/png','image/gif'];
+            $tmpPath = $_FILES['foto']['tmp_name'];
+            $type = mime_content_type($tmpPath);
+            $size = $_FILES['foto']['size'];
+            if(!in_array($type, $allowed)) {
+                // ignore invalid types for now (could set flash message)
+                $uploadedFilename = null;
+            } elseif($size > 2 * 1024 * 1024) {
+                $uploadedFilename = null;
+            } else {
+                $ext = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+                $newname = time() . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+                $dest = __DIR__ . '/../assets/img/destinasi/' . $newname;
+                if(move_uploaded_file($tmpPath, $dest)) {
+                    $uploadedFilename = $newname;
+                }
+            }
+        }
+    }
     
     if($id) {
-        // Update
-        $stmt = $db->prepare("UPDATE destinasi SET nama_destinasi=?, deskripsi=?, harga_dewasa=?, harga_anak=?, kuota_harian=? WHERE id=?");
-        $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota, $id]);
+        // Update (include foto only if uploaded)
+        if($uploadedFilename) {
+            $stmt = $db->prepare("UPDATE destinasi SET nama_destinasi=?, deskripsi=?, harga_dewasa=?, harga_anak=?, kuota_harian=?, gambar=? WHERE id=?");
+            $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota, $uploadedFilename, $id]);
+        } else {
+            $stmt = $db->prepare("UPDATE destinasi SET nama_destinasi=?, deskripsi=?, harga_dewasa=?, harga_anak=?, kuota_harian=? WHERE id=?");
+            $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota, $id]);
+        }
     } else {
-        // Insert
-        $stmt = $db->prepare("INSERT INTO destinasi (nama_destinasi, deskripsi, harga_dewasa, harga_anak, kuota_harian) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota]);
+        // Insert (may include foto)
+        if($uploadedFilename) {
+            $stmt = $db->prepare("INSERT INTO destinasi (nama_destinasi, deskripsi, harga_dewasa, harga_anak, kuota_harian, gambar) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota, $uploadedFilename]);
+        } else {
+            $stmt = $db->prepare("INSERT INTO destinasi (nama_destinasi, deskripsi, harga_dewasa, harga_anak, kuota_harian) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$nama, $deskripsi, $harga_dewasa, $harga_anak, $kuota]);
+        }
     }
     
     redirect('destinasi.php');
@@ -51,6 +85,7 @@ if(isset($_GET['edit'])) {
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Kelola Destinasi</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
@@ -183,7 +218,7 @@ if(isset($_GET['edit'])) {
         <div class="container">
             <div class="nav">
                 <div class="logo">
-                    <h2>WisataLocal - Admin</h2>
+                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
                 </div>
                 <div class="nav-links">
                     <a href="index.php">Dashboard</a>
@@ -204,7 +239,7 @@ if(isset($_GET['edit'])) {
         <!-- Add/Edit Form -->
         <div class="form-container">
             <h2><?php echo $edit_destinasi ? 'Edit Destinasi' : 'Tambah Destinasi Baru'; ?></h2>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <?php if($edit_destinasi): ?>
                     <input type="hidden" name="id" value="<?php echo $edit_destinasi['id']; ?>">
                 <?php endif; ?>
@@ -248,6 +283,17 @@ if(isset($_GET['edit'])) {
                         <input type="number" class="form-control kuota-input" id="kuota_harian" name="kuota_harian" 
                                placeholder="Jumlah pengunjung per hari"
                                value="<?php echo $edit_destinasi['kuota_harian'] ?? ''; ?>" required min="1">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" for="foto">Foto Destinasi</label>
+                        <?php if(!empty($edit_destinasi['gambar'])): ?>
+                            <div style="margin-bottom:0.5rem;">
+                                <img src="../assets/img/destinasi/<?php echo $edit_destinasi['gambar']; ?>" alt="foto" style="max-width:200px; height:auto; border-radius:6px;">
+                            </div>
+                        <?php endif; ?>
+                        <input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+                        <small style="color:#666;">Biarkan kosong jika tidak ingin mengubah foto. Maks 2MB.</small>
                     </div>
                 </div>
                 

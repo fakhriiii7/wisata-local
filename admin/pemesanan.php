@@ -51,6 +51,7 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Kelola Pemesanan</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -60,7 +61,7 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="container">
             <div class="nav">
                 <div class="logo">
-                    <h2>WisataLocal - Admin</h2>
+                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
                 </div>
                 <div class="nav-links">
                     <a href="index.php">Dashboard</a>
