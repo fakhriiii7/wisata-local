@@ -572,7 +572,6 @@ footer p {
     .check-booking input[type="text"] { flex-basis: 100%; }
     .check-booking form { gap: 0.6rem; }
 }
-}
 
 /* footer links */
 footer a { color: rgba(255,255,255,0.95); text-decoration: none; }

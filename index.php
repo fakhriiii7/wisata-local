@@ -59,7 +59,7 @@ $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
 
     <main>
-        <section class="hero" style="background: linear-gradient(135deg,#f6fbff 0%,#eaf3ff 100%);padding:5rem 1rem;">
+        <section class="hero" style="padding:5rem 1rem;">
             <div class="container" style="display:flex;flex-direction:row;gap:2rem;align-items:center;justify-content:space-between;flex-wrap:wrap;">
                 <div style="flex:1;min-width:300px;display:flex;flex-direction:column;align-items:flex-start;gap:1.25rem;">
                     <img src="assets/img/logo2-1.png" alt="WisataLocal" style="max-width:320px;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.08));">
