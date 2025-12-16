@@ -48,7 +48,7 @@ if ($_POST) {
 <head>
     <meta charset="UTF-8">
     <title>Login User</title>
-    <link rel="icon" type="image/png" href="../assets/img/logo1.png">
+    <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         body { background: linear-gradient(180deg,#f4f8ff 0%, #ffffff 100%); }
