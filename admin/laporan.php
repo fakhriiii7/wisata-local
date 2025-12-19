@@ -11,24 +11,51 @@ $db = (new Database())->getConnection();
 $start_date = $_GET['start_date'] ?? date('Y-m-01');
 $end_date = $_GET['end_date'] ?? date('Y-m-t');
 
-// Get report data
+// Pagination
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$perPage = 10;
+$offset = ($page - 1) * $perPage;
+
+// Get total count for pagination
+$countStmt = $db->prepare("
+    SELECT COUNT(*) as total 
+    FROM pemesanan p 
+    WHERE p.status = 'confirmed' AND DATE(p.created_at) BETWEEN ? AND ?
+");
+$countStmt->execute([$start_date, $end_date]);
+$totalRecords = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($totalRecords / $perPage);
+
+// Get report data with pagination
 $stmt = $db->prepare("
     SELECT p.*, d.nama_destinasi 
     FROM pemesanan p 
     LEFT JOIN destinasi d ON p.destinasi_id = d.id 
     WHERE p.status = 'confirmed' AND DATE(p.created_at) BETWEEN ? AND ?
     ORDER BY p.created_at DESC
+    LIMIT ? OFFSET ?
 ");
-$stmt->execute([$start_date, $end_date]);
+$stmt->bindValue(1, $start_date, PDO::PARAM_STR);
+$stmt->bindValue(2, $end_date, PDO::PARAM_STR);
+$stmt->bindValue(3, $perPage, PDO::PARAM_INT);
+$stmt->bindValue(4, $offset, PDO::PARAM_INT);
+$stmt->execute();
 $laporan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Calculate totals
-$total_pendapatan = 0;
-$total_pengunjung = 0;
-foreach($laporan as $row) {
-    $total_pendapatan += $row['total_harga'];
-    $total_pengunjung += ($row['jumlah_dewasa'] + $row['jumlah_anak']);
-}
+// Calculate totals (from ALL records in date range, not just current page)
+$totalStmt = $db->prepare("
+    SELECT 
+        SUM(total_harga) as total_pendapatan,
+        SUM(jumlah_dewasa + jumlah_anak) as total_pengunjung,
+        COUNT(*) as total_pesanan
+    FROM pemesanan 
+    WHERE status = 'confirmed' AND DATE(created_at) BETWEEN ? AND ?
+");
+$totalStmt->execute([$start_date, $end_date]);
+$totals = $totalStmt->fetch(PDO::FETCH_ASSOC);
+$total_pendapatan = $totals['total_pendapatan'] ?? 0;
+$total_pengunjung = $totals['total_pengunjung'] ?? 0;
+$total_pesanan_all = $totals['total_pesanan'] ?? 0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -214,7 +241,7 @@ foreach($laporan as $row) {
             <div class="summary-card stat-card">
                 <div class="icon"><i class="fa fa-list"></i></div>
                 <div>
-                    <h3><?php echo count($laporan); ?></h3>
+                    <h3><?php echo $total_pesanan_all; ?></h3>
                     <p>Total Pesanan</p>
                 </div>
             </div>
@@ -249,7 +276,7 @@ foreach($laporan as $row) {
             <div class="section-header">
                 <h2>Detail Laporan Pemesanan</h2>
                 <div style="color: #7f8c8d;">
-                    Menampilkan <?php echo count($laporan); ?> pesanan
+                    Menampilkan <?php echo count($laporan); ?> dari <?php echo $totalRecords; ?> pesanan
                 </div>
             </div>
             
@@ -304,6 +331,30 @@ foreach($laporan as $row) {
                         </tbody>
                     </table>
                 </div>
+                
+                <!-- Pagination -->
+                <?php if($totalPages > 1): ?>
+                <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                    <?php if($page > 1): ?>
+                        <a href="?page=<?php echo $page - 1; ?>&start_date=<?php echo urlencode($start_date); ?>&end_date=<?php echo urlencode($end_date); ?>" 
+                           class="btn-secondary" style="padding: 0.6rem 1rem;">
+                            <i class="fa fa-chevron-left"></i> Sebelumnya
+                        </a>
+                    <?php endif; ?>
+                    
+                    <span style="padding: 0.6rem 1rem; color: #2c3e50;">
+                        Halaman <?php echo $page; ?> dari <?php echo $totalPages; ?> 
+                        (Total: <?php echo $totalRecords; ?> pesanan)
+                    </span>
+                    
+                    <?php if($page < $totalPages): ?>
+                        <a href="?page=<?php echo $page + 1; ?>&start_date=<?php echo urlencode($start_date); ?>&end_date=<?php echo urlencode($end_date); ?>" 
+                           class="btn-secondary" style="padding: 0.6rem 1rem;">
+                            Selanjutnya <i class="fa fa-chevron-right"></i>
+                        </a>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
             <?php else: ?>
                 <div style="text-align: center; padding: 3rem; color: #7f8c8d;">
                     <div style="font-size: 4rem; margin-bottom: 1rem;">📊</div>

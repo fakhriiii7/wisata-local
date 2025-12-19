@@ -16,34 +16,66 @@ if (isset($_GET['action']) && isset($_GET['kode'])) {
     }
 }
 
-// Get all pemesanan
-$pemesanan = $db->query("
-    SELECT p.*, d.nama_destinasi 
-    FROM pemesanan p 
-    LEFT JOIN destinasi d ON p.destinasi_id = d.id 
-    ORDER BY p.created_at DESC
-")->fetchAll(PDO::FETCH_ASSOC);
+// Pagination
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$perPage = 10;
+$offset = ($page - 1) * $perPage;
 
 // Filter by user if specified
 $user_filter = '';
+$whereClause = '';
 $params = [];
+$countParams = [];
 
 if (isset($_GET['user_id']) && !empty($_GET['user_id'])) {
-    $user_filter = " WHERE p.user_id = ?";
+    $whereClause = " WHERE p.user_id = ?";
     $params[] = $_GET['user_id'];
+    $countParams[] = $_GET['user_id'];
 }
 
-$query = "
-    SELECT p.*, d.nama_destinasi, u.nama_lengkap 
+// Get total count for pagination
+$countQuery = "
+    SELECT COUNT(*) as total 
     FROM pemesanan p 
-    LEFT JOIN destinasi d ON p.destinasi_id = d.id 
-    LEFT JOIN users u ON p.user_id = u.id 
-    $user_filter
-    ORDER BY p.created_at DESC
+    {$whereClause}
 ";
+$countStmt = $db->prepare($countQuery);
+$countStmt->execute($countParams);
+$totalRecords = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+$totalPages = ceil($totalRecords / $perPage);
 
-$stmt = $db->prepare($query);
-$stmt->execute($params);
+// Get pemesanan with pagination
+if (!empty($params)) {
+    // With user filter
+    $query = "
+        SELECT p.*, d.nama_destinasi, u.nama_lengkap 
+        FROM pemesanan p 
+        LEFT JOIN destinasi d ON p.destinasi_id = d.id 
+        LEFT JOIN users u ON p.user_id = u.id 
+        WHERE p.user_id = ?
+        ORDER BY p.created_at DESC
+        LIMIT ? OFFSET ?
+    ";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(1, $params[0], PDO::PARAM_INT);
+    $stmt->bindValue(2, $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(3, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+} else {
+    // Without user filter
+    $query = "
+        SELECT p.*, d.nama_destinasi, u.nama_lengkap 
+        FROM pemesanan p 
+        LEFT JOIN destinasi d ON p.destinasi_id = d.id 
+        LEFT JOIN users u ON p.user_id = u.id 
+        ORDER BY p.created_at DESC
+        LIMIT ? OFFSET ?
+    ";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(1, $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+}
 $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -62,6 +94,13 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <main class="container">
         <h1>Kelola Pemesanan</h1>
+        
+        <?php if(isset($_GET['user_id']) && !empty($_GET['user_id'])): ?>
+            <p style="margin-bottom: 1rem; color: #666;">
+                Menampilkan pemesanan untuk user tertentu. 
+                <a href="pemesanan.php" style="color: #976a3c; text-decoration: underline;">Tampilkan semua pemesanan</a>
+            </p>
+        <?php endif; ?>
 
         <div class="table-container">
             <table>
@@ -109,6 +148,30 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
             </table>
         </div>
+        
+        <!-- Pagination -->
+        <?php if($totalPages > 1): ?>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <?php if($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?><?php echo isset($_GET['user_id']) ? '&user_id=' . urlencode($_GET['user_id']) : ''; ?>" 
+                   class="btn-secondary" style="padding: 0.6rem 1rem;">
+                    <i class="fa fa-chevron-left"></i> Sebelumnya
+                </a>
+            <?php endif; ?>
+            
+            <span style="padding: 0.6rem 1rem; color: #2c3e50;">
+                Halaman <?php echo $page; ?> dari <?php echo $totalPages; ?> 
+                (Total: <?php echo $totalRecords; ?> pemesanan)
+            </span>
+            
+            <?php if($page < $totalPages): ?>
+                <a href="?page=<?php echo $page + 1; ?><?php echo isset($_GET['user_id']) ? '&user_id=' . urlencode($_GET['user_id']) : ''; ?>" 
+                   class="btn-secondary" style="padding: 0.6rem 1rem;">
+                    Selanjutnya <i class="fa fa-chevron-right"></i>
+                </a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </main>
 </body>
 <?php

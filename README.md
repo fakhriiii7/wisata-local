@@ -25,5 +25,51 @@ localhost/wisata-simple/admin
 email 	 : admin@wisata.com
 password : admin123
 
+Halaman Dashboard
+
+
+Halaman Destinasi
+
+Halaman Pesan Tiket
+
+
+Halaman Berhasil Pesan
+
+
+Halaman Cek Pesanan
+
+
+Halaman Cetak Tiket
+
+
+Halaman Login User
+
+
+Halaman Registrasi
+
+
+Halaman Dashboard User
+
+
+Halaman Riwayat Pemensanan
+
+
+Halaman Login Admin
+
+
+Halaman Dashboard Admin
+
+
+Halaman Destinasi Admin
+
+
+Halaman Pemesanan
+
+
+
+Halaman User Admin
+
+
+Halaman Laporan
 
 
