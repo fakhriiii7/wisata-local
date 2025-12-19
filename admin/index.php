@@ -27,6 +27,7 @@ $recent_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .admin-nav {
             background: #34495e;
@@ -45,44 +46,39 @@ $recent_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
-                </div>
-                <div class="nav-links">
-                    <a href="index.php">Dashboard</a>
-                    <a href="destinasi.php">Destinasi</a>
-                    <a href="pemesanan.php">Pemesanan</a>
-                    <a href="users.php">Users</a>
-                    <a href="laporan.php">Laporan</a>
-                    <a href="../index.php">Website</a>
-                    <a href="login.php?logout=1">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'header-admin.php'; ?>
 
     <main class="container">
         <h1>Dashboard Admin</h1>
 
         <div class="stats">
             <div class="stat-card">
-                <h3><?php echo $stats['total_destinasi']; ?></h3>
-                <p>Destinasi</p>
+                <div class="icon"><i class="fa fa-map-marker-alt"></i></div>
+                <div>
+                    <h3><?php echo $stats['total_destinasi']; ?></h3>
+                    <p>Destinasi</p>
+                </div>
             </div>
             <div class="stat-card">
-                <h3><?php echo $stats['total_pemesanan']; ?></h3>
-                <p>Total Pemesanan</p>
+                <div class="icon"><i class="fa fa-ticket-alt"></i></div>
+                <div>
+                    <h3><?php echo $stats['total_pemesanan']; ?></h3>
+                    <p>Total Pemesanan</p>
+                </div>
             </div>
             <div class="stat-card">
-                <h3><?php echo $stats['pemesanan_hari_ini']; ?></h3>
-                <p>Pemesanan Hari Ini</p>
+                <div class="icon"><i class="fa fa-calendar-day"></i></div>
+                <div>
+                    <h3><?php echo $stats['pemesanan_hari_ini']; ?></h3>
+                    <p>Pemesanan Hari Ini</p>
+                </div>
             </div>
             <div class="stat-card">
-                <h3><?php echo formatRupiah($stats['total_pendapatan']); ?></h3>
-                <p>Total Pendapatan</p>
+                <div class="icon"><i class="fa fa-wallet"></i></div>
+                <div>
+                    <h3><?php echo formatRupiah($stats['total_pendapatan']); ?></h3>
+                    <p>Total Pendapatan</p>
+                </div>
             </div>
         </div>
 
@@ -112,8 +108,16 @@ $recent_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="status <?php echo $order['status']; ?>"><?php echo $order['status']; ?></span>
                             </td>
                             <td>
-                                <a href="pemesanan.php?action=confirm&kode=<?php echo $order['kode_booking']; ?>">Confirm</a>
-                                <a href="pemesanan.php?action=cancel&kode=<?php echo $order['kode_booking']; ?>">Cancel</a>
+                                <?php if ($order['status'] == 'pending'): ?>
+                                    <a class="btn btn-primary btn-small" title="Confirm" href="pemesanan.php?action=confirm&kode=<?php echo $order['kode_booking']; ?>">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-cancel btn-small" title="Cancel" href="pemesanan.php?action=cancel&kode=<?php echo $order['kode_booking']; ?>">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <span class="muted">-</span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

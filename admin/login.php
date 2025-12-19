@@ -41,6 +41,7 @@ if($_POST) {
     <title>Admin Login</title>
     <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background: linear-gradient(180deg,#f4f8ff 0%, #ffffff 100%); }
         .auth-wrap { min-height:80vh; display:flex; align-items:center; justify-content:center; padding:2rem; }
@@ -65,7 +66,7 @@ if($_POST) {
         <form method="POST">
             <input type="email" name="email" placeholder="Email Admin" required>
             <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-primary">Login</button>
         </form>
         
         <p style="text-align:center;margin-top:0.8rem;"><a href="../index.php">← Kembali ke Website</a></p>

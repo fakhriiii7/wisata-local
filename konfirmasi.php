@@ -31,18 +31,18 @@ if(!$pemesanan) redirect('index.php');
     </div>
     
     <!-- TAMBAH INSTRUKSI BERDASARKAN STATUS -->
-    <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left;">
-        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Instruksi Selanjutnya:</h4>
-        <ol style="padding-left: 1.2rem; margin: 0;">
+    <div class="instruction-box">
+        <h4 class="instruction-title">Instruksi Selanjutnya:</h4>
+        <ol class="instruction-list">
             <li>Simpan kode booking Anda: <strong><?php echo $pemesanan['kode_booking']; ?></strong></li>
             <li>Tunjukkan kode booking saat tiba di lokasi wisata</li>
             <li>Lakukan pembayaran di lokasi sebelum masuk</li>
             <?php if($pemesanan['status'] == 'pending'): ?>
-                <li style="color: #f39c12;">● Menunggu konfirmasi admin - Anda bisa batalkan pesanan di dashboard</li>
+                <li class="status-note pending">● Menunggu konfirmasi admin - Anda bisa batalkan pesanan di dashboard</li>
             <?php elseif($pemesanan['status'] == 'confirmed'): ?>
-                <li style="color: #27ae60;">● Pesanan sudah dikonfirmasi - Tiket siap digunakan</li>
+                <li class="status-note confirmed">● Pesanan sudah dikonfirmasi - Tiket siap digunakan</li>
             <?php elseif($pemesanan['status'] == 'cancelled'): ?>
-                <li style="color: #e74c3c;">● Pesanan telah dibatalkan - Tiket tidak dapat digunakan</li>
+                <li class="status-note cancelled">● Pesanan telah dibatalkan - Tiket tidak dapat digunakan</li>
             <?php endif; ?>
         </ol>
     </div>

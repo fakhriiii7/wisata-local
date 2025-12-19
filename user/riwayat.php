@@ -69,17 +69,15 @@ $pesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <span class="status <?php echo $p['status']; ?>"><?php echo $p['status']; ?></span>
                     </td>
                     <td>
-                        <a href="../konfirmasi.php?kode=<?php echo $p['kode_booking']; ?>">Detail</a>
+                        <a href="../konfirmasi.php?kode=<?php echo $p['kode_booking']; ?>" class="btn-small">Detail</a>
                         <?php if ($p['status'] != 'cancelled'): ?>
-                            <a href="../cetak_tiket.php?kode=<?php echo $p['kode_booking']; ?>" target="_blank">Cetak</a>
-                        <?php else: ?>
-                            <span style="color: #95a5a6; font-style: italic;">Tidak dapat dicetak</span>
+                            <a href="../cetak_tiket.php?kode=<?php echo $p['kode_booking']; ?>" class="btn-small" target="_blank">Cetak</a>
                         <?php endif; ?>
 
                         <?php if ($p['status'] == 'pending'): ?>
                             <a href="riwayat.php?cancel=1&kode=<?php echo $p['kode_booking']; ?>"
                                 onclick="return confirm('Yakin ingin membatalkan pesanan <?php echo $p['kode_booking']; ?>?')"
-                                style="color: #e74c3c;">Cancel</a>
+                                class="link-danger btn-small">❌</a>
                         <?php endif; ?>
                     </td>
                 </tr>

@@ -68,18 +68,26 @@ header .nav {
 }
 
 .nav-links a {
-    color: white;
+    color: var(--brown-dark);
     text-decoration: none;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
-    transition: all 0.3s ease;
+    transition: all 0.18s ease;
     font-weight: 500;
 }
 
 .nav-links a:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(151,106,60,0.06);
     transform: translateY(-2px);
 }
+
+/* When header uses gradient, nav links should be white for contrast */
+header .nav-links a { color: white; }
+header .nav-links .nav-btn { color: white; border-color: transparent; }
+
+/* User header buttons (brown background) */
+.nav-links .nav-btn { background: transparent; color: var(--brown-dark); padding:0.35rem 0.6rem; border-radius:6px; border:1px solid transparent; }
+.nav-links .nav-btn:hover { text-decoration: underline; transform: translateY(0); }
 
 /* MAIN CONTENT */
 main.container {
@@ -104,6 +112,7 @@ main.container {
     font-weight: 700;
 }
 
+/* User dashboard styles consolidated further below (brown theme). */
 .hero p {
     font-size: 1.3rem;
     margin-bottom: 2rem;
@@ -130,12 +139,12 @@ main.container {
 
 .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(30,115,190,0.12);
+    box-shadow: 0 10px 30px rgba(151,106,60,0.12);
     filter: brightness(0.98);
 }
 
 .btn:focus {
-    outline: 3px solid rgba(30,115,190,0.12);
+    outline: 3px solid rgba(151,106,60,0.12);
     outline-offset: 2px;
 }
 
@@ -220,13 +229,13 @@ main.container {
     outline: none;
     border-color: #2c3e50;
     background: white;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 0 3px rgba(151,106,60,0.08);
 }
 
 .auth-form button {
     width: 100%;
     padding: 1rem;
-    background: #3498db;
+    background: var(--brown);
     color: white;
     border: none;
     border-radius: 8px;
@@ -249,7 +258,7 @@ main.container {
 }
 
 .auth-form a {
-    color: #3498db;
+    color: var(--brown);
     text-decoration: none;
     font-weight: 500;
 }
@@ -300,7 +309,7 @@ main.container {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--brown);
     background: white;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
@@ -317,7 +326,7 @@ main.container {
     padding: 1.5rem;
     border-radius: 8px;
     margin: 2rem 0;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid var(--brown);
 }
 
 .price-summary h3 {
@@ -383,12 +392,12 @@ main.container {
 
 .stat-card {
     background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    border-left: 4px solid #3498db;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: all 0.22s ease;
+    border-left: 4px solid var(--brown);
 }
 
 .stat-card:hover {
@@ -397,15 +406,17 @@ main.container {
 }
 
 .stat-card h3 {
-    font-size: 2.5rem;
-    color: #3498db;
-    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+    color: var(--brown);
+    margin-bottom: 0.25rem;
     font-weight: 700;
 }
 
 .stat-card p {
     color: #6c757d;
     font-weight: 500;
+    font-size: 0.85rem;
+    margin: 0;
 }
 
 /* TABLES */
@@ -478,14 +489,14 @@ tr:hover {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.85rem 1.6rem;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--brown) 100%);
+    background: linear-gradient(90deg, var(--brown) 0%, var(--brown-dark) 100%);
     color: #fff;
     border-radius: 999px;
     border: none;
     cursor: pointer;
     font-weight: 700;
     font-size: 1rem;
-    box-shadow: 0 20px 50px rgba(30,115,190,0.12);
+    box-shadow: 0 20px 50px rgba(151,106,60,0.12);
     transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.12s ease;
     min-height: 44px;
     padding-left: 1.2rem;
@@ -493,7 +504,7 @@ tr:hover {
 }
 
 .btn-primary:active { transform: translateY(0); }
-.btn-primary:hover { transform: translateY(-4px); box-shadow: 0 30px 70px rgba(30,115,190,0.16); filter: brightness(0.98); }
+.btn-primary:hover { transform: translateY(-4px); box-shadow: 0 30px 70px rgba(151,106,60,0.16); filter: brightness(0.98); }
 .btn-primary:focus { outline: 3px solid rgba(151,106,60,0.12); outline-offset: 2px; }
 
 /* FOOTER (match header gradient + white text) */
@@ -542,17 +553,17 @@ footer p {
 .btn-primary {
     display: inline-block;
     padding: 0.8rem 1.4rem;
-    background: var(--primary);
+    background: linear-gradient(90deg, var(--brown) 0%, var(--brown-dark) 100%);
     color: #fff;
     border-radius: 10px;
     border: none;
     cursor: pointer;
     font-weight: 600;
-    box-shadow: 0 8px 20px rgba(30,115,190,0.12);
+    box-shadow: 0 8px 20px rgba(151,106,60,0.12);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(30,115,190,0.18); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(151,106,60,0.18); }
 
 .booking-details h2 { margin-bottom: 1rem; color: var(--brown-dark); }
 
@@ -788,7 +799,7 @@ footer a:hover { text-decoration: underline; color: #fff; }
 
 .check-booking input:focus {
     outline: none;
-    border-color: #3498db;
+    border-color: var(--brown);
     background: white;
 }
 
@@ -822,3 +833,51 @@ footer a:hover { text-decoration: underline; color: #fff; }
     background: #95a5a6;
     color: white;
 }
+
+/* Inline-style replacements (moved from templates) */
+.muted { color: #95a5a6; font-style: italic; }
+.text-danger, .link-danger { color: #e74c3c; font-weight:700; text-decoration:none; background:transparent; border: none; }
+.link-danger:hover { text-decoration:underline; }
+
+.instruction-box { background: #f7efe6; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align:left; border:1px solid rgba(151,106,60,0.06); }
+.instruction-title { color: #2c3e50; margin-bottom: 0.5rem; }
+.instruction-list { padding-left: 1.2rem; margin: 0; }
+.status-note.pending { color: #f39c12; }
+.status-note.confirmed { color: #27ae60; }
+.status-note.cancelled { color: #e74c3c; }
+
+/* Compact dashboard tweaks */
+.dashboard-header-compact h1 { font-size: 1.35rem; margin: 0 0 0.25rem 0; color: var(--brown-dark); }
+.dashboard-header-compact .muted { margin: 0; }
+.compact-stats { display:flex; gap:0.6rem; margin:1rem 0; }
+.compact-stats .stat-card { flex:1; padding:0.9rem; border-radius:10px; text-align:left; }
+.compact-stats .stat-card h3 { font-size:1.15rem; margin:4px 0; color: var(--brown); }
+.compact-stats .stat-card p { margin:0; font-size:0.9rem; color:var(--muted); }
+.quick-actions.compact { display:flex; gap:0.6rem; margin-bottom:1rem; }
+.recent-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.5rem; }
+.recent-item { display:flex; justify-content:space-between; align-items:center; padding:0.75rem; background:#fff; border-radius:8px; box-shadow:0 6px 18px rgba(151,106,60,0.03); }
+.recent-item .left strong { display:block; }
+.recent-item .left small { display:block; color:var(--muted); font-size:0.85rem; }
+.recent-item .muted { margin-top:0.25rem; }
+.recent-item .right { display:flex; gap:0.5rem; align-items:center; }
+
+@media (max-width: 900px) {
+    .compact-stats { flex-direction:column; }
+    .quick-actions.compact { flex-direction:row; flex-wrap:wrap; }
+}
+
+/* Small button for compact action icons in user area (no background) */
+.btn-small {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0.35rem 0.55rem;
+    background: transparent;
+    color: var(--brown-dark);
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:700;
+    min-width:36px;
+    border: 1px solid rgba(151,106,60,0.06);
+}
+.btn-small:hover { text-decoration: underline; transform: translateY(0); }

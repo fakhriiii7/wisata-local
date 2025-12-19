@@ -21,12 +21,12 @@ $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .dest-link { text-decoration:none; color:inherit; }
         /* Action button styles */
         .action-btn { display:inline-flex; align-items:center; gap:0.5rem; cursor:pointer; transition:transform .14s ease, box-shadow .14s ease; }
-        .btn-primary.action-btn { background:#2b8ef6;color:#fff;padding:0.7rem 1rem;border-radius:8px;text-decoration:none;box-shadow:0 8px 20px rgba(43,142,246,0.12); }
+        .btn-primary.action-btn { background:#976a3c;color:#fff;padding:0.7rem 1rem;border-radius:8px;text-decoration:none;box-shadow:0 8px 20px rgba(151,106,60,0.12); }
         .btn-secondary.action-btn { background:#f0f0f0;color:#222;padding:0.7rem 1rem;border-radius:8px;text-decoration:none;box-shadow:none; }
         .action-btn:hover { transform: translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,0.12); }
         .action-btn:active { transform: translateY(-1px) scale(.995); box-shadow:0 6px 18px rgba(0,0,0,0.08); }
         /* Make destination links keyboard-focus visible */
-        .dest-link:focus { outline: 3px solid rgba(43,142,246,0.18); outline-offset:6px; }
+        .dest-link:focus { outline: 3px solid rgba(151,106,60,0.18); outline-offset:6px; }
         .dest-link .dest-card:active { transform: translateY(-2px) scale(0.995); }
     </style>
 </head>

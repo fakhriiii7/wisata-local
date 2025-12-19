@@ -27,11 +27,11 @@ if(isset($_GET['logout'])) {
                     <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
                 </div>
                 <div class="nav-links">
-                    <a href="index.php">Dashboard</a>
-                    <a href="riwayat.php">Riwayat</a>
-                    <a href="../pemesanan.php">Pesan Baru</a>
-                    <a href="../index.php">Kembali ke Website</a>
-                    <a href="login.php?action=logout">Logout (<?php echo $_SESSION['user_nama']; ?>)</a>
+                    <a href="index.php" class="nav-btn">Dashboard</a>
+                    <a href="riwayat.php" class="nav-btn">Riwayat</a>
+                    <a href="../pemesanan.php" class="nav-btn">Pesan Baru</a>
+                    <a href="../index.php" class="nav-btn">Kembali ke Website</a>
+                    <a href="login.php?action=logout" class="nav-btn">Logout (<?php echo $_SESSION['user_nama']; ?>)</a>
                 </div>
             </div>
         </div>

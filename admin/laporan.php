@@ -37,6 +37,7 @@ foreach($laporan as $row) {
     <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Laporan Pemesanan</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .filter-container {
             background: white;
@@ -50,7 +51,7 @@ foreach($laporan as $row) {
             color: #2c3e50;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 2px solid #976a3c;
         }
         
         .filter-form {
@@ -81,11 +82,11 @@ foreach($laporan as $row) {
         
         .form-control:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #976a3c;
         }
         
         .btn-primary {
-            background: #3498db;
+            background: #976a3c;
             color: white;
             padding: 0.8rem 1.5rem;
             border: none;
@@ -125,22 +126,25 @@ foreach($laporan as $row) {
         
         .summary-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-left: 4px solid #3498db;
+            padding: 0.9rem 1rem;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid #976a3c;
         }
-        
+
         .summary-card h3 {
-            font-size: 1.8rem;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+            color: #976a3c;
+            margin-bottom: 0.25rem;
+            font-weight: 700;
         }
-        
+
         .summary-card p {
-            color: #7f8c8d;
-            font-weight: 600;
+            color: #6c757d;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin: 0;
         }
         
         .report-section {
@@ -162,7 +166,7 @@ foreach($laporan as $row) {
         .total-row {
             background: #f8f9fa;
             font-weight: bold;
-            border-top: 2px solid #3498db;
+            border-top: 2px solid #976a3c;
         }
         
         @media (max-width: 768px) {
@@ -177,24 +181,7 @@ foreach($laporan as $row) {
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
-                </div>
-                <div class="nav-links">
-                    <a href="index.php">Dashboard</a>
-                    <a href="destinasi.php">Destinasi</a>
-                    <a href="pemesanan.php">Pemesanan</a>
-                    <a href="users.php">Users</a>
-                    <a href="laporan.php">Laporan</a>
-                    <a href="../index.php">Website</a>
-                    <a href="login.php?logout=1">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'header-admin.php'; ?>
 
     <main class="container">
         <h1>Laporan Pemesanan</h1>
@@ -215,31 +202,45 @@ foreach($laporan as $row) {
                            value="<?php echo $end_date; ?>" required>
                 </div>
                 
-                <button type="submit" class="btn-primary">🔍 Terapkan Filter</button>
-                <a href="laporan.php" class="btn-secondary">🔄 Reset</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-filter" style="margin-right:8px;"></i> Terapkan Filter
+                </button>
+                <a href="laporan.php" class="btn" style="background:#95a5a6;color:#fff;border-radius:8px;padding:0.8rem 1rem;text-decoration:none;">🔄 Reset</a>
             </form>
         </div>
 
         <!-- Summary Cards -->
         <div class="summary-cards">
-            <div class="summary-card">
-                <h3><?php echo count($laporan); ?></h3>
-                <p>Total Pesanan</p>
+            <div class="summary-card stat-card">
+                <div class="icon"><i class="fa fa-list"></i></div>
+                <div>
+                    <h3><?php echo count($laporan); ?></h3>
+                    <p>Total Pesanan</p>
+                </div>
             </div>
             
-            <div class="summary-card">
-                <h3><?php echo $total_pengunjung; ?></h3>
-                <p>Total Pengunjung</p>
+            <div class="summary-card stat-card">
+                <div class="icon"><i class="fa fa-users"></i></div>
+                <div>
+                    <h3><?php echo $total_pengunjung; ?></h3>
+                    <p>Total Pengunjung</p>
+                </div>
             </div>
             
-            <div class="summary-card">
-                <h3><?php echo formatRupiah($total_pendapatan); ?></h3>
-                <p>Total Pendapatan</p>
+            <div class="summary-card stat-card">
+                <div class="icon"><i class="fa fa-wallet"></i></div>
+                <div>
+                    <h3><?php echo formatRupiah($total_pendapatan); ?></h3>
+                    <p>Total Pendapatan</p>
+                </div>
             </div>
             
-            <div class="summary-card">
-                <h3><?php echo date('d M Y', strtotime($start_date)); ?> - <?php echo date('d M Y', strtotime($end_date)); ?></h3>
-                <p>Periode Laporan</p>
+            <div class="summary-card stat-card">
+                <div class="icon"><i class="fa fa-calendar"></i></div>
+                <div>
+                    <h3><?php echo date('d M Y', strtotime($start_date)); ?> - <?php echo date('d M Y', strtotime($end_date)); ?></h3>
+                    <p>Periode Laporan</p>
+                </div>
             </div>
         </div>
 
@@ -314,7 +315,7 @@ foreach($laporan as $row) {
         </div>
         
         <!-- Information Box -->
-        <div style="background: #e8f4fd; padding: 1rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #3498db;">
+        <div style="background: #f7efe6; padding: 1rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #976a3c;">
             <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">💡 Informasi Laporan</h4>
             <p style="color: #2c3e50; margin: 0; font-size: 0.9rem;">
                 Laporan ini hanya menampilkan pemesanan dengan status <strong>"confirmed"</strong>. 

@@ -88,6 +88,7 @@ if(isset($_GET['edit'])) {
     <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Kelola Destinasi</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .form-container {
             background: white;
@@ -101,7 +102,7 @@ if(isset($_GET['edit'])) {
             color: #2c3e50;
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 2px solid #976a3c;
         }
         
         .form-grid {
@@ -136,7 +137,7 @@ if(isset($_GET['edit'])) {
         
         .form-control:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: #976a3c;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
         
@@ -154,7 +155,7 @@ if(isset($_GET['edit'])) {
         }
         
         .btn-primary {
-            background: #3498db;
+            background: #976a3c;
             color: white;
             padding: 0.8rem 1.5rem;
             border: none;
@@ -214,24 +215,7 @@ if(isset($_GET['edit'])) {
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
-                </div>
-                <div class="nav-links">
-                    <a href="index.php">Dashboard</a>
-                    <a href="destinasi.php">Destinasi</a>
-                    <a href="pemesanan.php">Pemesanan</a>
-                    <a href="users.php">Users</a>
-                    <a href="laporan.php">Laporan</a>
-                    <a href="../index.php">Website</a>
-                    <a href="login.php?logout=1">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'header-admin.php'; ?>
 
     <main class="container">
         <h1>Kelola Destinasi Wisata</h1>
@@ -334,14 +318,16 @@ if(isset($_GET['edit'])) {
                         <td><?php echo formatRupiah($d['harga_anak']); ?></td>
                         <td><?php echo $d['kuota_harian']; ?> orang/hari</td>
                         <td>
-                            <a href="destinasi.php?edit=<?php echo $d['id']; ?>" class="btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;">
-                                ✏️ Edit
-                            </a>
-                            <a href="destinasi.php?action=delete&id=<?php echo $d['id']; ?>" 
-                               class="btn-secondary" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;"
-                               onclick="return confirm('Yakin ingin menghapus destinasi <?php echo $d['nama_destinasi']; ?>?')">
-                                🗑️ Hapus
-                            </a>
+                            <div class="action-buttons">
+                                <a href="destinasi.php?edit=<?php echo $d['id']; ?>" class="btn btn-small btn-primary" title="Edit">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                <a href="destinasi.php?action=delete&id=<?php echo $d['id']; ?>" 
+                                   class="btn btn-small btn-cancel" 
+                                   onclick="return confirm('Yakin ingin menghapus destinasi <?php echo $d['nama_destinasi']; ?>?')" title="Hapus">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>

@@ -54,27 +54,11 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="icon" type="image/png" href="../assets/img/logo1-1.png">
     <title>Kelola Pemesanan</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <div class="nav">
-                <div class="logo">
-                    <a href="../index.php"><img src="../assets/img/logo2-1.png" alt="WisataLocal" style="height:48px; display:block;"></a>
-                </div>
-                <div class="nav-links">
-                    <a href="index.php">Dashboard</a>
-                    <a href="destinasi.php">Destinasi</a>
-                    <a href="pemesanan.php">Pemesanan</a>
-                    <a href="users.php">Users</a>
-                    <a href="laporan.php">Laporan</a>
-                    <a href="../index.php">Website</a>
-                    <a href="login.php?logout=1">Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
+    <?php include 'header-admin.php'; ?>
 
     <main class="container">
         <h1>Kelola Pemesanan</h1>
@@ -109,10 +93,16 @@ $pemesanan = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </td>
                             <td>
                                 <?php if ($p['status'] == 'pending'): ?>
-                                    <a href="pemesanan.php?action=confirm&kode=<?php echo $p['kode_booking']; ?>">Confirm</a>
-                                    <a href="pemesanan.php?action=cancel&kode=<?php echo $p['kode_booking']; ?>">Cancel</a>
+                                    <a class="btn btn-primary btn-small" title="Confirm" href="pemesanan.php?action=confirm&kode=<?php echo $p['kode_booking']; ?>">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                    <a class="btn btn-cancel btn-small" title="Cancel" href="pemesanan.php?action=cancel&kode=<?php echo $p['kode_booking']; ?>">
+                                        <i class="fa fa-times"></i>
+                                    </a>
                                 <?php endif; ?>
-                                <a href="../cetak_tiket.php?kode=<?php echo $p['kode_booking']; ?>" target="_blank">Cetak</a>
+                                <a class="btn btn-small" title="Cetak" href="../cetak_tiket.php?kode=<?php echo $p['kode_booking']; ?>" target="_blank">
+                                    <i class="fa fa-print"></i>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
