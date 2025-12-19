@@ -70,8 +70,42 @@ if($_POST) {
     redirect('destinasi.php');
 }
 
-// Get all destinasi
-$destinasi = $db->query("SELECT * FROM destinasi ORDER BY nama_destinasi")->fetchAll(PDO::FETCH_ASSOC);
+// Search and Pagination
+$search = $_GET['search'] ?? '';
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$perPage = 10;
+$offset = ($page - 1) * $perPage;
+
+// Build query with search
+if(!empty($search)) {
+    $searchParam = "%{$search}%";
+    // Get total count
+    $countStmt = $db->prepare("SELECT COUNT(*) as total FROM destinasi WHERE nama_destinasi LIKE ? OR deskripsi LIKE ?");
+    $countStmt->execute([$searchParam, $searchParam]);
+    $totalRecords = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+    $totalPages = ceil($totalRecords / $perPage);
+    
+    // Get destinasi with pagination
+    $stmt = $db->prepare("SELECT * FROM destinasi WHERE nama_destinasi LIKE ? OR deskripsi LIKE ? ORDER BY nama_destinasi LIMIT ? OFFSET ?");
+    $stmt->bindValue(1, $searchParam, PDO::PARAM_STR);
+    $stmt->bindValue(2, $searchParam, PDO::PARAM_STR);
+    $stmt->bindValue(3, $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(4, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    // Get total count
+    $countStmt = $db->query("SELECT COUNT(*) as total FROM destinasi");
+    $totalRecords = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
+    $totalPages = ceil($totalRecords / $perPage);
+    
+    // Get destinasi with pagination
+    $stmt = $db->prepare("SELECT * FROM destinasi ORDER BY nama_destinasi LIMIT ? OFFSET ?");
+    $stmt->bindValue(1, $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(2, $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 // Get destinasi for edit
 $edit_destinasi = null;
@@ -294,6 +328,29 @@ if(isset($_GET['edit'])) {
 
         <!-- Destinasi List -->
         <h2>Daftar Destinasi Wisata</h2>
+        
+        <!-- Search Form -->
+        <div style="margin-bottom: 1.5rem;">
+            <form method="GET" action="destinasi.php" style="display: flex; gap: 0.5rem; align-items: center; max-width: 500px;">
+                <input type="text" name="search" value="<?php echo htmlspecialchars($search); ?>" 
+                       placeholder="Cari destinasi..." 
+                       style="flex: 1; padding: 0.8rem; border: 2px solid #e9ecef; border-radius: 5px; font-size: 1rem;">
+                <button type="submit" class="btn-primary" style="padding: 0.8rem 1.5rem;">
+                    <i class="fa fa-search"></i> Cari
+                </button>
+                <?php if(!empty($search)): ?>
+                    <a href="destinasi.php" class="btn-secondary" style="padding: 0.8rem 1.5rem;">
+                        <i class="fa fa-times"></i> Reset
+                    </a>
+                <?php endif; ?>
+            </form>
+            <?php if(!empty($search)): ?>
+                <p style="margin-top: 0.5rem; color: #666;">
+                    Menampilkan <?php echo count($destinasi); ?> dari <?php echo $totalRecords; ?> hasil untuk "<?php echo htmlspecialchars($search); ?>"
+                </p>
+            <?php endif; ?>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
@@ -334,6 +391,33 @@ if(isset($_GET['edit'])) {
                 </tbody>
             </table>
         </div>
+        
+        <!-- Pagination -->
+        <?php if($totalPages > 1): ?>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <?php if($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" 
+                   class="btn-secondary" style="padding: 0.6rem 1rem;">
+                    <i class="fa fa-chevron-left"></i> Sebelumnya
+                </a>
+            <?php endif; ?>
+            
+            <span style="padding: 0.6rem 1rem; color: #2c3e50;">
+                Halaman <?php echo $page; ?> dari <?php echo $totalPages; ?> 
+                (Total: <?php echo $totalRecords; ?> destinasi)
+            </span>
+            
+            <?php if($page < $totalPages): ?>
+                <a href="?page=<?php echo $page + 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" 
+                   class="btn-secondary" style="padding: 0.6rem 1rem;">
+                    Selanjutnya <i class="fa fa-chevron-right"></i>
+                </a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </main>
 </body>
+<?php
+include '../includes/footer.php';
+?>
 </html>

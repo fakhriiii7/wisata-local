@@ -324,4 +324,7 @@ foreach($laporan as $row) {
         </div>
     </main>
 </body>
+<?php
+include '../includes/footer.php';
+?>
 </html>

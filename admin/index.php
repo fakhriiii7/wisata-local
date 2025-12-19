@@ -246,5 +246,7 @@ $recent_orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </main>
 </body>
-
+<?php
+include '../includes/footer.php';
+?>
 </html>

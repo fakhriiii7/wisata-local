@@ -10,7 +10,7 @@ $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/img/logo1-1.png">
-    <title>Wisata Lokal</title>
+    <title>Wisatalocal</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         .dest-card { background: white; border-radius: 10px; overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }

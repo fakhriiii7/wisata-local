@@ -20,6 +20,7 @@ if($pemesanan['status'] == 'cancelled') {
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/img/logo1-1.png">
     <title>Tiket Wisata - <?php echo $pemesanan['kode_booking']; ?></title>
     <style>
         body { font-family: Arial, sans-serif; margin: 18px; background:#f6f7fb; }

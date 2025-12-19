@@ -18,9 +18,9 @@ $destinasi = $stmt->fetchAll(PDO::FETCH_ASSOC);
     .card { background:#fff; border-radius:10px; padding:0.75rem; box-shadow:0 8px 24px rgba(151,106,60,0.06); border:1px solid rgba(151,106,60,0.06); display:flex; flex-direction:column; gap:0.5rem; }
     .card-image img{ border-radius:8px; display:block; }
     .card h3{ margin:0; color:var(--brown-600); font-size:1.05rem; }
-    .card p{ color:#6b5a50; font-size:0.95rem; margin:0.25rem 0 0.5rem 0; }
+    .card p{ color:#6b5a50; font-size:0.95rem; margin:0.25rem 0 0.5rem 0; flex-grow:1; }
     .price-info{ gap:1rem; justify-content:space-between; color:#5a4538; font-weight:600; font-size:0.95rem; }
-    .btn { display:inline-block; margin-top:0.5rem; padding:0.6rem 0.9rem; background:var(--brown); color:#fff; text-decoration:none; border-radius:8px; box-shadow:0 8px 20px rgba(151,106,60,0.12); transition:transform .18s ease, box-shadow .18s ease; }
+    .card .btn { display:inline-block; margin-top:auto; padding:0.6rem 0.9rem; background:var(--brown); color:#fff; text-decoration:none; border-radius:8px; box-shadow:0 8px 20px rgba(151,106,60,0.12); transition:transform .18s ease, box-shadow .18s ease; }
     .btn:hover{ transform:translateY(-3px); box-shadow:0 16px 36px rgba(151,106,60,0.16); }
     @media(max-width:600px){ .price-info{flex-direction:column;align-items:flex-start;gap:0.25rem;} }
 </style>
