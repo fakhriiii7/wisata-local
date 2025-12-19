@@ -25,35 +25,45 @@ localhost/wisata-simple/admin
 email 	 : admin@wisata.com
 password : admin123
 
-Halaman Dashboard
+Halaman Utama
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125409" src="https://github.com/user-attachments/assets/336cf622-05e3-4939-94ee-403ed36fc76d" />
+Ini adalah halaman utama yang akan ditampilkan saat awal megakses website.
 
 Halaman Destinasi
 <img width="1920" height="3314" alt="Wisata-Lokal-12-19-2025_12_54_PM" src="https://github.com/user-attachments/assets/f3c977ea-9a61-4fc3-96b6-04be1afce805" />
+Menampilkan berbagai macam destinasi dengan deskripsi dan harga yang berbeda.
 
 Halaman Pesan Tiket
 <img width="1920" height="1616" alt="Wisata-Lokal-12-19-2025_12_56_PM" src="https://github.com/user-attachments/assets/6ec585d6-411c-41c3-bd0f-2ba0f6460537" />
+Disini kita dapat memesan tiket dengan memasukkan informasi nama, email, no. telp, tanggal berkunjung, dan jumlah orang yang berkunjung.
 
 Halaman Berhasil Pesan
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125706" src="https://github.com/user-attachments/assets/3d26213a-d5ac-444a-bfdd-30f6aee91e99" />
+Setelah kita klik pesan tiket pada halaman pesan tiket, maka pesanan sudah dibuat akan tetapi status masih pending, status akan berubah menjadi confirm jika sudah disetujui admin.
 
 Halaman Cek Pesanan
 <img width="1920" height="1178" alt="Cek-Pemesanan-WisataLocal-12-19-2025_12_57_PM" src="https://github.com/user-attachments/assets/fdf53e42-2c75-404f-9b4f-e508e9169dcc" />
+Halaman ini dibuat untuk guest yang tidak memiliki atau membuat akun untuk memesan tiket. Simpan kode pemesanan, dan gunakan fitur pencarian untuk mengecek status pesanan secara berkala.
 
 Halaman Cetak Tiket
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125817" src="https://github.com/user-attachments/assets/70a64634-9304-42c8-aedf-cdf3b5676cb2" />
+setelah pesanan dibuat kita bisa mencetak tiket secara offline.
 
 Halaman Login User
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125832" src="https://github.com/user-attachments/assets/4d4cc8dc-cfc4-4ec8-b618-56f8e82582cc" />
+Berikut adalah halaman login untuk user menggunakan email dan massword untuk akses masuknya
 
 Halaman Registrasi
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125839" src="https://github.com/user-attachments/assets/d8a7e69c-9cc3-4169-ba15-d5874994c5a2" />
+Jika kita belum memiliki akun, kita bisa membuat akun dengan menginput nama lengkap, email, no. telp, dan password
 
 Halaman Dashboard User
 <img width="1920" height="1173" alt="User-Dashboard-WisataLocal-12-19-2025_12_59_PM" src="https://github.com/user-attachments/assets/42492904-80a8-4875-a178-a66725089599" />
+Ini adalah halaman dashboard untuk user disini menampilkan total tiket, tiket terkonfirmasi, serta pengeluaran yang telah kita buat, serta menampilkan pesanan terbaru kita.
 
 Halaman Riwayat Pemesanan
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 125950" src="https://github.com/user-attachments/assets/a7fed27a-49d3-4f96-be38-86984c215bf9" />
+Menampilkan riwayat pemesanan tiket.
 
 Halaman Login Admin
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 130032" src="https://github.com/user-attachments/assets/6d40d03b-e294-415d-b7a2-83d83de61eec" />
