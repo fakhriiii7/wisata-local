@@ -1,7 +1,23 @@
 README.md
 
--Aplikasi pemesanan tiket wisata lokal-
-Melakukan pemesanan tiket melalui website dan mencetaknya
+**-Aplikasi pemesanan tiket wisata lokal-**
+Melakukan pemesanan tiket melalui website dan mencetaknya (opsional)
+
+**Fitur yang tersedia :**
+- Daftar
+- Login
+- Halaman Utama
+- Destinasi
+- Buat Pesanan
+- Cek Pemesanan
+- Dashboard User
+- Riwayat Pemesanan User
+- Dashboard Admin
+- Backup Database
+- Kelola Destinasi
+- Pemesanan Semua User
+- Menampilkan Daftar User
+- Menampilkan Laporan Pemesanan
 
 Pengguna
 - Admin
@@ -67,18 +83,24 @@ Menampilkan riwayat pemesanan tiket.
 
 Halaman Login Admin
 <img width="1920" height="1080" alt="Screenshot 2025-12-19 130032" src="https://github.com/user-attachments/assets/6d40d03b-e294-415d-b7a2-83d83de61eec" />
+Berikut adalah halaman login untuk admin, berbeda dengan user.
 
 Halaman Dashboard Admin
 <img width="1920" height="1374" alt="Admin-Dashboard-12-19-2025_01_01_PM" src="https://github.com/user-attachments/assets/cba34108-e91a-43f1-a5dd-51fef2ecd355" />
+Menampilkan julah destinasi yang ada, total pemesanan, pemesanan yang terjadi hari, total pendapatan, serta pemesanan terbaru.
 
 Halaman Destinasi Admin
 <img width="1920" height="3278" alt="Kelola-Destinasi-12-19-2025_01_01_PM" src="https://github.com/user-attachments/assets/de637293-bf79-43ab-b1b4-35618d49d3b6" />
+Menampilkan tambah destinasi, serta daftar destinasi yang sudah didaftarkan.
 
 Halaman Pemesanan Admin
 <img width="1920" height="1960" alt="Kelola-Pemesanan-12-19-2025_01_02_PM" src="https://github.com/user-attachments/assets/b6ac116c-9308-4603-b1a2-8787ff4b4c9c" />
+Menampilkan daftar Pemesanan yang terjadi.
 
 Halaman User Admin
 <img width="1920" height="2049" alt="Kelola-User-Admin-12-19-2025_01_02_PM" src="https://github.com/user-attachments/assets/061a9dbe-b59f-4e09-a351-78085c7a09c4" />
+Menampilkan daftar user yang telah registrasi.
 
 Halaman Laporan
 <img width="1920" height="2172" alt="Laporan-Pemesanan-12-19-2025_01_03_PM" src="https://github.com/user-attachments/assets/add51077-5f42-4758-8189-a9886137a7d0" />
+Menampilkan Laporan pemesanan pada periode tertentu.
