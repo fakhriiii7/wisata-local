@@ -9,32 +9,66 @@ if(isLoggedIn()) {
 $error = '';
 $success = '';
 
+// Get data dari session atau URL untuk pre-fill form
+$prefill_data = [
+    'nama_lengkap' => '',
+    'email' => '',
+    'no_telepon' => ''
+];
+
+// Cek session untuk data pemesanan pending
+if(isset($_SESSION['pending_order_data'])) {
+    $prefill_data = $_SESSION['pending_order_data'];
+}
+
+// Cek URL parameter email
+if(isset($_GET['email']) && !empty($_GET['email'])) {
+    $prefill_data['email'] = sanitize($_GET['email']);
+}
+
 // Process registration
 if($_POST) {
     $db = (new Database())->getConnection();
     
     $nama = sanitize($_POST['nama_lengkap']);
-    $email = sanitize($_POST['email']);
+    $email = trim(strtolower(sanitize($_POST['email']))); // Normalisasi email ke lowercase
     $password = $_POST['password'];
     $telepon = sanitize($_POST['no_telepon']);
     
-    // Check if email exists
-    $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
-    $stmt->execute([$email]);
-    
-    if($stmt->rowCount() > 0) {
-        $error = "Email sudah terdaftar";
-    } elseif(strlen($password) < 6) {
-        $error = "Password minimal 6 karakter";
+    // Validasi format email
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Format email tidak valid";
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Check if email exists (case-insensitive)
+        $stmt = $db->prepare("SELECT id FROM users WHERE LOWER(email) = ?");
+        $stmt->execute([$email]);
         
-        $stmt = $db->prepare("INSERT INTO users (nama_lengkap, email, password, no_telepon, role) VALUES (?, ?, ?, ?, 'user')");
-        if($stmt->execute([$nama, $email, $hashed_password, $telepon])) {
-            $success = "Registrasi berhasil! Silakan login.";
-            echo "<script>setTimeout(() => window.location.href = 'login.php', 2000)</script>";
+        if($stmt->rowCount() > 0) {
+            $error = "Email sudah terdaftar. Silakan gunakan email lain atau <a href='login.php'>login di sini</a>.";
+        } elseif(strlen($password) < 6) {
+            $error = "Password minimal 6 karakter";
         } else {
-            $error = "Gagal mendaftar";
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            $stmt = $db->prepare("INSERT INTO users (nama_lengkap, email, password, no_telepon, role) VALUES (?, ?, ?, ?, 'user')");
+            if($stmt->execute([$nama, $email, $hashed_password, $telepon])) {
+                // Dapatkan user_id yang baru dibuat
+                $new_user_id = $db->lastInsertId();
+                
+                // Link semua pesanan dengan email yang sama ke user_id baru (case-insensitive)
+                $stmt = $db->prepare("UPDATE pemesanan SET user_id = ? WHERE LOWER(email) = ? AND user_id IS NULL");
+                $stmt->execute([$new_user_id, $email]);
+                
+                // Hapus session pending order data
+                if(isset($_SESSION['pending_order_data'])) {
+                    unset($_SESSION['pending_order_data']);
+                }
+                
+                $success = "Registrasi berhasil! Riwayat pesanan Anda telah tersimpan. Silakan login.";
+                echo "<script>setTimeout(() => window.location.href = 'login.php', 2000)</script>";
+            } else {
+                $error = "Gagal mendaftar";
+            }
         }
     }
 }
@@ -76,9 +110,9 @@ if($_POST) {
         <?php endif; ?>
         
         <form method="POST">
-            <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="tel" name="no_telepon" placeholder="No. Telepon">
+            <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" value="<?php echo htmlspecialchars($prefill_data['nama_lengkap']); ?>" required>
+            <input type="email" name="email" placeholder="Email" value="<?php echo htmlspecialchars($prefill_data['email']); ?>" required>
+            <input type="tel" name="no_telepon" placeholder="No. Telepon" value="<?php echo htmlspecialchars($prefill_data['no_telepon']); ?>">
             <input type="password" name="password" placeholder="Password (min. 6 karakter)" required>
             <button type="submit" class="btn">Daftar</button>
         </form>

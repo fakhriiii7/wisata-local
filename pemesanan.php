@@ -32,6 +32,14 @@ if ($_POST) {
     $user_id = isLoggedIn() ? $_SESSION['user_id'] : NULL;
 
     if ($stmt->execute([$kode_booking, $user_id, $destinasi_id, $nama, $email, $telepon, $tanggal, $dewasa, $anak, $total])) {
+        // Simpan data pemesanan ke session jika user tidak login (untuk pre-fill form register)
+        if (!isLoggedIn()) {
+            $_SESSION['pending_order_data'] = [
+                'nama_lengkap' => $nama,
+                'email' => $email,
+                'no_telepon' => $telepon
+            ];
+        }
         redirect("konfirmasi.php?kode=$kode_booking");
     }
 }

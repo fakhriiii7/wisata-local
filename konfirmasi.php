@@ -55,7 +55,7 @@ if(!$pemesanan) redirect('index.php');
         <a href="index.php" class="btn">Kembali ke Beranda</a>
         
         <?php if(!isLoggedIn()): ?>
-            <a href="user/register.php" class="btn">Daftar untuk Simpan Riwayat</a>
+            <a href="user/register.php?email=<?php echo urlencode($pemesanan['email']); ?>" class="btn">Daftar untuk Simpan Riwayat</a>
         <?php else: ?>
             <a href="user/index.php" class="btn">Lihat Dashboard</a>
         <?php endif; ?>
